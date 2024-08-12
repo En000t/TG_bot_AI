@@ -9,6 +9,7 @@ generator = TextGenerator()
 
 # Обработка команды /start
 def start(update: Update, context: CallbackContext):
+    print("Команда /start была вызвана")  # Отладочный вывод
     if not is_user_authorized(update.message.from_user.id):
         update.message.reply_text("У вас нет доступа к этому боту.")
         return
@@ -16,12 +17,14 @@ def start(update: Update, context: CallbackContext):
 
 # Обработка команды /generate
 def generate_text(update: Update, context: CallbackContext):
+    print("Команда /generate была вызвана")  # Отладочный вывод
     if not is_user_authorized(update.message.from_user.id):
         update.message.reply_text("У вас нет доступа к этому боту.")
         return
 
     prompt = ' '.join(context.args)
     if prompt:
+        print(f"Генерация текста с промптом: {prompt}")  # Отладочный вывод
         text = generator.generate(prompt)
         update.message.reply_text(text)
     else:
@@ -29,6 +32,7 @@ def generate_text(update: Update, context: CallbackContext):
 
 # Основная функция для запуска бота
 def main():
+    print("Запуск бота...")  # Отладочный вывод
     # Создаем Updater и регистрируем обработчики команд
     updater = Updater(config.TELEGRAM_TOKEN, use_context=True)
     dp = updater.dispatcher
@@ -38,6 +42,7 @@ def main():
 
     # Запускаем бота
     updater.start_polling()
+    print("Бот запущен и ожидает команды")  # Отладочный вывод
     updater.idle()
 
 if __name__ == '__main__':
